@@ -1,5 +1,137 @@
-<div class="grid h-screen place-items-center">
-  <div class="font-bold text-3xl">
-    Fyle Internship Challenge
-  </div>
+<title>fyle-frontend-challenge app is running!</title>
+<div class="searchBox">
+  <input
+    class="searchInput"
+    type="text"
+    name=""
+    placeholder="Search Username"
+    [(ngModel)]="username"
+    (keyup.enter)="searchUser()"
+  />
+  <button class="searchButton" (click)="searchUser()">
+    <mat-icon fontIcon="search"> </mat-icon>
+  </button>
 </div>
+<div class="item main-frame" *ngIf="loading; else content">
+  <div class="full-item">
+    <div class="first-section-wrapper">
+      <div class="gravatar">
+        <ngx-skeleton-loader
+          appearance="circle"
+          [theme]="{ width: '80px', height: '80px' }"
+        >
+        </ngx-skeleton-loader>
+      </div>
+      <div class="gravatar-title">
+        <div>
+          <ngx-skeleton-loader
+            [theme]="{
+              width: '300px',
+              'border-radius': '0',
+              height: '30px',
+              'margin-bottom': '10px'
+            }"
+          ></ngx-skeleton-loader>
+        </div>
+        <div>
+          <ngx-skeleton-loader
+            [theme]="{ width: '230px', 'border-radius': '0', height: '25px' }"
+          >
+          </ngx-skeleton-loader>
+        </div>
+      </div>
+    </div>
+    <div class="second-section-wrapper">
+      <div class="wrapper">
+        <ngx-skeleton-loader
+          [theme]="{
+            width: '60%',
+            'border-radius': '0',
+            height: '18px',
+            'margin-bottom': '10px'
+          }"
+        ></ngx-skeleton-loader>
+      </div>
+      <div class="wrapper">
+        <ngx-skeleton-loader
+          [theme]="{
+            width: '90%',
+            'border-radius': '0',
+            height: '18px',
+            'margin-bottom': '10px'
+          }"
+        ></ngx-skeleton-loader>
+      </div>
+      <div class="wrapper">
+        <ngx-skeleton-loader
+          [theme]="{
+            width: '70%',
+            'border-radius': '0',
+            height: '18px',
+            'margin-bottom': '10px'
+          }"
+        ></ngx-skeleton-loader>
+      </div>
+      <div class="wrapper">
+        <ngx-skeleton-loader
+          [theme]="{
+            width: '70%',
+            'border-radius': '0',
+            height: '18px',
+            'margin-bottom': '10px'
+          }"
+        ></ngx-skeleton-loader>
+      </div>
+      <div class="wrapper">
+        <ngx-skeleton-loader
+          [theme]="{
+            width: '90%',
+            'border-radius': '0',
+            height: '18px',
+            'margin-bottom': '10px'
+          }"
+        ></ngx-skeleton-loader>
+      </div>
+    </div>
+  </div>
+</div> 
+ 
+ <ng-template #content>
+  <div class="main-frame">
+    <div *ngIf="user" class="main-profile">
+      <img class="img" [src]="user.avatar_url" />
+      <div class="textWrapper">
+        <h3 class="name">{{ user.name ? user.name : user.login }}</h3>
+        <div class="bio">{{ user.bio }}</div>
+        <div class="location with-icon" *ngIf="user.location">
+          <mat-icon fontIcon="location_on"> </mat-icon> {{ user.location }}
+        </div>
+        <div *ngIf="user.twitter_username">
+          Twitter: {{user.twitter_username}}
+        </div>
+      </div>
+    </div>
+    <div class="link" *ngIf="user.html_url">
+      <mat-icon fontIcon="link"> </mat-icon> {{ user.html_url }}
+    </div>
+    <div class="repo-frame">
+      <div class="container">
+        <div *ngFor="let repo of dataObs$ | async">
+          <div class="card">
+            <h3 class="title">{{ repo.name }}</h3>
+            <p class="info">{{ repo.description }}</p>
+            <span class="tag" *ngIf="repo.language">{{ repo.language }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template> 
+
+<mat-paginator
+  [length]="repositories.length"
+  [pageSizeOptions]="[10, 20, 50]"
+  aria-label="Select page"
+  class="paginator"
+>
+</mat-paginator>
